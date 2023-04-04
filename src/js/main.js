@@ -4,13 +4,14 @@ import '../css/main.css'
 
 
 var footer = document.querySelector('.contact')
-
+footer.classList.add('fixed')
 document.addEventListener('scroll', (e) => {
     var ofset = window.pageYOffset;
     console.log(ofset)
+    
     if(ofset >= 30){
-        footer.classList.add('fixed')
+//         footer.classList.add('fixed')
     }else{
-        footer.classList.remove('fixed')
+        //footer.classList.remove('fixed')
     }
 })
