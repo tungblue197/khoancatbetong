@@ -185,6 +185,13 @@ body {
   padding: 0 5%;
 }
 
+@media (max-width: 600px) {
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url("images/banner-khoan-cat-betong-mobile.jpg") center/cover;
+  }
+}
+
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
