@@ -57,81 +57,91 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 });
 
 // Toast Notification Function
-function showToast(message, type = 'success') {
-    const toastContainer = document.querySelector('.toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    
-    const icon = type === 'success' ? '✓' : '✕';
-    
-    toast.innerHTML = `
+function showToast(message, type = "success") {
+  const toastContainer = document.querySelector(".toast-container");
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+
+  const icon = type === "success" ? "✓" : "✕";
+
+  toast.innerHTML = `
         <span class="toast-icon">${icon}</span>
         <span class="toast-message">${message}</span>
         <button class="toast-close">&times;</button>
     `;
-    
-    toastContainer.appendChild(toast);
-    
-    // Trigger reflow to start animation
-    toast.offsetHeight;
-    toast.classList.add('show');
-    
-    // Close button functionality
-    const closeButton = toast.querySelector('.toast-close');
-    closeButton.addEventListener('click', () => {
-        toast.style.animation = 'slideOut 0.3s ease-in-out forwards';
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
-    });
-    
-    // Auto remove after 5 seconds
+
+  toastContainer.appendChild(toast);
+
+  // Trigger reflow to start animation
+  toast.offsetHeight;
+  toast.classList.add("show");
+
+  // Close button functionality
+  const closeButton = toast.querySelector(".toast-close");
+  closeButton.addEventListener("click", () => {
+    toast.style.animation = "slideOut 0.3s ease-in-out forwards";
     setTimeout(() => {
-        if (toast.parentElement) {
-            toast.style.animation = 'slideOut 0.3s ease-in-out forwards';
-            setTimeout(() => {
-                toast.remove();
-            }, 300);
-        }
-    }, 5000);
+      toast.remove();
+    }, 300);
+  });
+
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    if (toast.parentElement) {
+      toast.style.animation = "slideOut 0.3s ease-in-out forwards";
+      setTimeout(() => {
+        toast.remove();
+      }, 300);
+    }
+  }, 5000);
 }
 
 // Form Submission with EmailJS
-const contactForm = document.getElementById('contactForm');
+const contactForm = document.getElementById("contactForm");
 
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+contactForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    // Show loading state
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.textContent = 'Đang gửi...';
-    submitButton.disabled = true;
+  // Show loading state
+  const submitButton = this.querySelector('button[type="submit"]');
+  const originalText = submitButton.textContent;
+  submitButton.textContent = "Đang gửi...";
+  submitButton.disabled = true;
 
-    // Prepare template parameters
-    const templateParams = {
-        from_name: this.querySelector('#name').value,
-        from_email: this.querySelector('#email').value,
-        phone: this.querySelector('#phone').value,
-        message: this.querySelector('#message').value
-    };
+  // Prepare template parameters
+  const templateParams = {
+    from_name: this.querySelector("#name").value,
+    from_email: this.querySelector("#email").value,
+    phone: this.querySelector("#phone").value,
+    message: this.querySelector("#message").value,
+  };
 
-    // Send email using EmailJS
-    emailjs.send('khoancatbetongduongbao', 'template_8ajoqih', templateParams)
-        .then(function() {
-            // Show success toast
-            showToast('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.', 'success');
-            contactForm.reset();
-        }, function(error) {
-            // Show error toast
-            console.error('Lỗi:', error);
-            showToast('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.', 'error');
-        })
-        .finally(function() {
-            // Reset button state
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
-        });
+  // Send email using EmailJS
+  emailjs
+    .send("khoancatbetong-hn", "template_8ajoqih", templateParams)
+    .then(
+      function () {
+        // Show success toast
+        showToast(
+          "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.",
+          "success"
+        );
+        contactForm.reset();
+      },
+      function (error) {
+        // Show error toast
+        console.error("Lỗi:", error);
+        showToast(
+          "Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.",
+          "error"
+        );
+      }
+    )
+    .finally(function () {
+      // Reset button state
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+    });
 });
 
 // Navbar Scroll Effect
